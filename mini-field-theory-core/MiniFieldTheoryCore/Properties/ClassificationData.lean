@@ -72,3 +72,5 @@ axiom algebraicallyClosedFields (F : Field) : Prop
 #eval s!"Properties.ClassificationData: finiteField: {FieldClass.finiteField 9}"
 #eval s!"Properties.ClassificationData: padicField: {FieldClass.padicField 7}"
 #eval "Properties.ClassificationData: isPerfectField, classifyByCharacteristic/Cardinality"
+
+end MiniFieldTheoryCore

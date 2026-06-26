@@ -8,3 +8,5 @@ lean_lib «MiniGroupTheoryCore» where
   roots := #[`MiniGroupTheoryCore]
 
 require «mini-object-kernel» from "../../0. mini-math-kernel/mini-object-kernel"
+require «mini-axiom-kernel» from "../../0. mini-math-kernel/mini-axiom-kernel"
+require «mini-logic-kernel» from "../../0. mini-math-kernel/mini-logic-kernel"

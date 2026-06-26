@@ -1,7 +1,0 @@
-{"version": "1.0.0",
- "packagesDir": "lake-packages",
- "packages": [
-  {"name": "mini-group-theory-core",
-   "url": "../mini-group-theory-core",
-   "type": "path"}
- ]}

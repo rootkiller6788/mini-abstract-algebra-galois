@@ -6,6 +6,7 @@ Automorphism group. Inner automorphisms.
 -/
 
 import MiniGroupTheoryCore.Morphisms.Hom
+import MiniGroupTheoryCore.Core.AxiomCompat
 import MiniObjectKernel.Core.Basic
 
 namespace MiniGroupTheoryCore
@@ -65,26 +66,39 @@ def AutGroup.mk (G : Group) : AutGroup G where
   one := GroupIso.id G
   inv f := GroupIso.symm f
 
-/-! ## Inner automorphism -/
+/-! ## Inner automorphism (conjugation by g) -/
+
+theorem innerAut_is_bijection {G : Group} (g : G.carrier) :
+  Function.Bijective (fun (x : G.carrier) => G.mul (G.mul g x) (G.inv g)) := by
+  refine ⟨?_, ?_⟩
+  · intro x y h
+    apply Group.mul_right_cancel (G.mul g x) (G.mul g y) (G.inv g) at h
+    apply Group.mul_left_cancel x y g at h
+    exact h
+  · intro y
+    refine ⟨G.mul (G.mul (G.inv g) y) g, ?_⟩
+    calc
+      G.mul (G.mul g (G.mul (G.mul (G.inv g) y) g)) (G.inv g)
+          = G.mul (G.mul (G.mul g (G.inv g)) y) (G.mul g (G.inv g)) := by
+            simp [G.mul_assoc]
+      _ = G.mul (G.mul G.one y) G.one := by rw [G.mul_inv, G.mul_inv]
+      _ = y := by rw [G.one_mul, G.mul_one]
 
 def innerAut {G : Group} (g : G.carrier) : GroupIso G G where
   toHom := {
     map := fun x => G.mul (G.mul g x) (G.inv g)
     map_mul := by
       intro x y
-      calc
-        G.mul (G.mul g (G.mul x y)) (G.inv g) = G.mul (G.mul (G.mul g x) y) (G.inv g) := by
-          rw [G.mul_assoc]
-        _ = G.mul (G.mul (G.mul g x) (G.mul y (G.inv g))) (G.mul G.one (G.inv g)) := by
-          sorry
-      sorry
+      simp [G.mul_assoc]
   }
   invHom := {
     map := fun x => G.mul (G.mul (G.inv g) x) g
-    map_mul := sorry
+    map_mul := by
+      intro x y
+      simp [G.mul_assoc]
   }
-  left_inv := sorry
-  right_inv := sorry
+  left_inv x := by simp [G.mul_assoc]
+  right_inv y := by simp [G.mul_assoc]
 
 /-! ## Conjugacy -/
 

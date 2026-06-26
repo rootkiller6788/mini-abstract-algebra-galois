@@ -70,3 +70,5 @@ def exampleBundle : FieldBundle :=
 #eval s!"Core.Objects: Field char repr: {fieldToString exampleField}"
 #eval "Core.Objects: FieldBundle with base, extension, embedding"
 #eval s!"Core.Objects: bundleToString: {bundleToString exampleBundle}"
+
+end MiniFieldTheoryCore

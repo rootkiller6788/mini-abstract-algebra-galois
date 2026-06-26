@@ -80,23 +80,23 @@ For a multiplicative subset M of R, the localization R[M⁻¹]
 satisfies: any homomorphism φ: R → S sending M to units of S
 factors uniquely through R[M⁻¹]. -/
 
-/-- A multiplicative subset of a ring. -/
-axiom MultiplicativeSubset (R : Ring) : Type
+/-- A multiplicative subset of a ring (axiomatic type for UMP). -/
+axiom MultSubset (R : Ring) : Type
 
-/-- The localization of R at a multiplicative subset M. -/
-axiom Localization (R : Ring) (M : MultiplicativeSubset R) : Ring
+/-- The localization of R at a multiplicative subset M (axiomatic ring for UMP). -/
+axiom LocRing (R : Ring) (M : MultSubset R) : Ring
 
 /-- The canonical map R → R[M⁻¹]. -/
-axiom localizationMap {R : Ring} (M : MultiplicativeSubset R) :
-  RingHom R (Localization R M)
+axiom localizationMap {R : Ring} (M : MultSubset R) :
+  RingHom R (LocRing R M)
 
 /-- The universal property of localization: any ring hom
     φ: R → S that sends elements of M to units factors
     uniquely through R[M⁻¹]. -/
 axiom localizationUniversalProperty {R S : Ring}
-  (M : MultiplicativeSubset R) (φ : RingHom R S)
+  (M : MultSubset R) (φ : RingHom R S)
   (hunits : ∀ (m : R.carrier), True)
-  : ∃! (ψ : RingHom (Localization R M) S),
+  : ∃! (ψ : RingHom (LocRing R M) S),
       RingHom.comp ψ (localizationMap M) = φ
 
 /-! ## #eval examples -/

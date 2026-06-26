@@ -18,7 +18,7 @@ def generateTerms (sig : Signature) (vars : List String) (depth : Nat) : List St
 
 structure SmallAlgebra where
   carrier : List Nat
-  operations : List (List (Nat x List Nat x Nat))
+  operations : List (List (Nat × List Nat × Nat))
   size : Nat
 
 def enumerateSmallAlgebras (sig : Signature) (maxSize : Nat) : List SmallAlgebra :=

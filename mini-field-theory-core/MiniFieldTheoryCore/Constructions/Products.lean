@@ -75,3 +75,5 @@ axiom compositumInGalois (tower : ExtensionTower) : Prop
 #eval "Constructions.Products: TensorProductExtension (F₁ ⊗_K F₂)"
 #eval "Constructions.Products: ProductRing.ofFields (not a field in general)"
 #eval "Constructions.Products: ExtensionTower (base ⊆ middle ⊆ top)"
+
+end MiniFieldTheoryCore

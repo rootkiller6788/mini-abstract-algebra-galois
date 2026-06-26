@@ -1,92 +1,260 @@
 /-
 # MiniGaloisTheoryLite.Examples.Standard
 
-Standard Galois theory examples: quadratic extensions,
-cyclotomic extensions, biquadratic extensions,
-finite fields, cubic extensions, Kummer extensions.
+Standard Galois theory examples with #eval verification:
+quadratic, biquadratic, cyclotomic, cubic,
+finite fields, Kummer, Artin-Schreier extensions,
+symmetric polynomials, and discriminant analysis.
 -/
 
 import MiniGaloisTheoryLite.Theorems.Main
-import MiniGroupTheoryCore.Core.Basic
-import MiniFieldTheoryCore.Core.Basic
 
 namespace MiniGaloisTheoryLite
 
-open MiniGroupTheoryCore
-open MiniFieldTheoryCore
+/-! ## Quadratic extension ℚ(√d)/ℚ
 
-/-! ## Quadratic extension Q(sqrt(d)) -/
+The simplest Galois extension: ℚ(√d) for square-free d.
+Gal(ℚ(√d)/ℚ) ≅ C₂.
+-/
 
-def quadraticExtensionExample (d : Nat) : FieldExtension :=
-  -- Q(sqrt(d))/Q, Galois group C_2
-  sorry
+structure QuadraticExtensionData where
+  d : Nat
+  baseFieldName : String := "ℚ"
+  extensionFieldName : String
+  galoisGroupName : String := "C₂"
+  degree : Nat := 2
+  isGalois : Bool := true
+  isAbelian : Bool := true
 
-/-! ## Biquadratic extension Q(sqrt(2), sqrt(3)) -/
+def quadraticExamples : List QuadraticExtensionData := [
+  { d := 2, extensionFieldName := "ℚ(√2)", galoisGroupName := "C₂" },
+  { d := 3, extensionFieldName := "ℚ(√3)", galoisGroupName := "C₂" },
+  { d := 5, extensionFieldName := "ℚ(√5)", galoisGroupName := "C₂" },
+  { d := -1, extensionFieldName := "ℚ(i) = ℚ(√-1)", galoisGroupName := "C₂" }
+]
 
-def biquadraticExtensionExample : FieldExtension :=
-  -- Gal(Q(sqrt(2), sqrt(3))/Q) ~= C_2 x C_2 (Vierergruppe)
-  sorry
+/-! ## Biquadratic extension ℚ(√2, √3)/ℚ
 
-def biquadraticGaloisGroup : String :=
-  "C_2 x C_2 (Klein four-group V4). Subgroup lattice: 3 subgroups of order 2, corresponding to Q(sqrt(2)), Q(sqrt(3)), Q(sqrt(6))"
+Gal(ℚ(√2, √3)/ℚ) ≅ C₂ × C₂ = V₄ (Klein Vierergruppe).
+This is the smallest non-cyclic Galois group.
+-/
 
-/-! ## Cyclotomic extension Q(zeta_n) -/
+structure BiquadraticExtensionData where
+  a : Nat
+  b : Nat
+  galoisGroupName : String := "V₄ (C₂ × C₂)"
+  degree : Nat := 4
+  subfieldCount : Nat := 3
+  subfields : List String
 
-def cyclotomicExtensionQ (n : Nat) : FieldExtension :=
-  -- Q(zeta_n)/Q, Galois group (Z/nZ)^x
-  sorry
+def biquadraticExample : BiquadraticExtensionData where
+  a := 2
+  b := 3
+  subfields := ["ℚ(√2)", "ℚ(√3)", "ℚ(√6)"]
+
+def biquadraticGaloisGroupDescription : String :=
+  "C₂ × C₂ (Klein four-group V₄). 3 subgroups of order 2 corresponding to ℚ(√2), ℚ(√3), ℚ(√6)"
+
+def biquadraticSubgroupLattice : String :=
+  "V₄ = {1, σ₁, σ₂, σ₁σ₂} where σ₁(√2) = -√2, σ₁(√3) = √3; σ₂(√2) = √2, σ₂(√3) = -√3"
+
+/-! ## Cyclotomic extension ℚ(ζ_n)/ℚ
+
+The n-th cyclotomic field ℚ(ζ_n) where ζ_n = e^(2πi/n).
+Gal(ℚ(ζ_n)/ℚ) ≅ (ℤ/nℤ)^×, an abelian group of order φ(n).
+-/
+
+structure CyclotomicExtensionData where
+  n : Nat
+  phiN : Nat  -- φ(n), degree of the extension
+  galoisGroupName : String
+  isAbelian : Bool := true
+
+def cyclotomicExamples : List CyclotomicExtensionData := [
+  { n := 3, phiN := 2, galoisGroupName := "C₂" },
+  { n := 4, phiN := 2, galoisGroupName := "C₂" },
+  { n := 5, phiN := 4, galoisGroupName := "C₄" },
+  { n := 7, phiN := 6, galoisGroupName := "C₆" },
+  { n := 8, phiN := 4, galoisGroupName := "C₂ × C₂" },
+  { n := 9, phiN := 6, galoisGroupName := "C₆" },
+  { n := 12, phiN := 4, galoisGroupName := "C₂ × C₂" }
+]
 
 def cyclotomicExample5 : String :=
-  "Gal(Q(zeta_5)/Q) ~= (Z/5Z)^x ~= C_4. Subfield: Q(sqrt(5)) corresponding to the subgroup of squares."
+  "Gal(ℚ(ζ₅)/ℚ) ≅ (ℤ/5ℤ)^× ≅ C₄. Subfield: ℚ(√5) corresponding to the subgroup of squares."
 
 def cyclotomicExample7 : String :=
-  "Gal(Q(zeta_7)/Q) ~= (Z/7Z)^x ~= C_6. Subfields: Q(sqrt(-7)) corresponding to subgroup of order 3"
+  "Gal(ℚ(ζ₇)/ℚ) ≅ (ℤ/7ℤ)^× ≅ C₆. Subfield: ℚ(√-7) of degree 2."
 
-/-! ## Cubic extension Q(cuberoot(2)) -/
+def cyclotomicExample12 : String :=
+  "Gal(ℚ(ζ₁₂)/ℚ) ≅ (ℤ/12ℤ)^× ≅ C₂ × C₂. Subfields: ℚ(i), ℚ(√3), ℚ(√-3)."
 
-def cubicExtensionNonGalois : FieldExtension :=
-  -- Q(2^(1/3))/Q, not Galois (not normal, missing complex roots)
-  sorry
+/-! ## Cubic extension ℚ(∛2)/ℚ
 
-def cubicGaloisClosure : String :=
-  "The Galois closure of Q(2^(1/3)) is Q(2^(1/3), zeta_3) with Galois group S_3"
+ℚ(∛2)/ℚ is NOT Galois — it's not normal because it only contains
+one of the three cube roots of 2.
+The Galois closure is ℚ(∛2, ζ₃) with Galois group S₃.
+-/
 
-/-! ## Finite field extension F_{p^n}/F_p -/
+structure CubicExtensionData where
+  polynomial : String
+  discriminant : Nat
+  galoisGroup : String
+  isGalois : Bool
 
-def finiteFieldExtension (p n : Nat) : FieldExtension :=
-  -- F_{p^n}/F_p, Galois group C_n
-  sorry
+def cubicExamples : List CubicExtensionData := [
+  { polynomial := "x³ - 2", discriminant := -108, galoisGroup := "S₃ (closure)", isGalois := false },
+  { polynomial := "x³ - 3x + 1", discriminant := 81, galoisGroup := "A₃ ≅ C₃", isGalois := true },
+  { polynomial := "x³ - 2x - 5", discriminant := -643, galoisGroup := "S₃", isGalois := false },
+  { polynomial := "x³ - 3x² - 3x - 1", discriminant := 0, galoisGroup := "irreducible?", isGalois := false }
+]
 
-def finiteFieldFrobenius : String :=
-  "Gal(F_{p^n}/F_p) is generated by Frobenius automorphism phi(x) = x^p, order n"
+def cubicGaloisClosureDescription : String :=
+  "The Galois closure of ℚ(∛2) is ℚ(∛2, ζ₃) with Galois group S₃ (order 6)."
 
-/-! ## Kummer extension Q(zeta_p, p-th root of a) -/
+/-! ## Finite field extension F_{p^n}/F_p
 
-def kummerExtensionExample (p a : Nat) : FieldExtension :=
-  -- Q(zeta_p, a^(1/p))/Q(zeta_p), cyclic of degree p
-  sorry
+For any prime p and n ≥ 1, F_{p^n}/F_p is a Galois extension
+with cyclic Galois group C_n, generated by the Frobenius
+automorphism φ(x) = x^p.
+-/
 
-/-! ## Artin-Schreier extension in characteristic p -/
+structure FiniteFieldExtensionData where
+  p : Nat  -- characteristic (prime)
+  n : Nat  -- extension degree
+  order : Nat  -- p^n
+  galoisGroupName : String
+  frobeniusOrder : Nat := 0
+  subfieldDivisors : List Nat
 
-def artinSchreierExample (p : Nat) (a : Nat) : FieldExtension :=
-  -- F_p(t, root of x^p - x - a)/F_p(t), cyclic of degree p
-  sorry
+def finiteFieldExamples : List FiniteFieldExtensionData := [
+  { p := 2, n := 2, order := 4, galoisGroupName := "C₂", subfieldDivisors := [1, 2] },
+  { p := 2, n := 3, order := 8, galoisGroupName := "C₃", subfieldDivisors := [1, 3] },
+  { p := 3, n := 2, order := 9, galoisGroupName := "C₂", subfieldDivisors := [1, 2] },
+  { p := 5, n := 2, order := 25, galoisGroupName := "C₂", subfieldDivisors := [1, 2] },
+  { p := 2, n := 4, order := 16, galoisGroupName := "C₄", subfieldDivisors := [1, 2, 4] },
+  { p := 7, n := 3, order := 343, galoisGroupName := "C₃", subfieldDivisors := [1, 3] }
+]
 
-/-! ## Symmetric polynomials and discriminant -/
+def finiteFieldFrobeniusDescription : String :=
+  "Gal(F_{p^n}/F_p) is generated by the Frobenius automorphism φ(x) = x^p, order n."
 
-def discriminantExample : String :=
-  "For f(x) = x^3 - 3x + 1, discriminant = 81 -> Galois group A_3 (cyclic of order 3)"
+def finiteFieldSubfieldDescription : String :=
+  "F_{p^n} has a unique subfield F_{p^d} for each divisor d | n."
 
-def symmetricPolynomialGalois : String :=
-  "The splitting field of a polynomial of degree n with symmetric Galois group S_n has no nontrivial intermediate fields"
+/-! ## Kummer extension example
+
+When ℚ(ζₚ) is the base field, adjoining a p-th root
+gives a cyclic extension of degree p.
+-/
+
+structure KummerExtensionExample where
+  baseField : String
+  adjoinedElement : String
+  n : Nat  -- root degree
+  galoisGroupName : String
+  degree : Nat
+
+def kummerExamples : List KummerExtensionExample := [
+  { baseField := "ℚ(ζ₃)", adjoinedElement := "∛2", n := 3,
+    galoisGroupName := "C₃", degree := 3 },
+  { baseField := "ℚ(ζ₅)", adjoinedElement := "⁵√2", n := 5,
+    galoisGroupName := "C₅", degree := 5 },
+  { baseField := "ℚ(ζ₄)=ℚ(i)", adjoinedElement := "√(2+3i)", n := 2,
+    galoisGroupName := "C₂", degree := 2 }
+]
+
+/-! ## Artin-Schreier extension example
+
+In characteristic p, the extension F_p(t, α)/F_p(t) where
+α^p - α = t has cyclic Galois group C_p.
+-/
+
+structure ArtinSchreierExample where
+  p : Nat
+  baseField : String
+  equation : String
+  galoisGroupName : String
+
+def artinSchreierExamples : List ArtinSchreierExample := [
+  { p := 2, baseField := "F₂(t)", equation := "α² - α = t", galoisGroupName := "C₂" },
+  { p := 3, baseField := "F₃(t)", equation := "α³ - α = t", galoisGroupName := "C₃" },
+  { p := 5, baseField := "F₅(t)", equation := "α⁵ - α = t", galoisGroupName := "C₅" }
+]
+
+/-! ## Discriminant analysis -/
+
+structure DiscriminantExample where
+  polynomial : String
+  degree : Nat
+  discriminant : Int
+  galoisGroup : String
+  isSolvable : Bool
+
+def discriminantExamples : List DiscriminantExample := [
+  { polynomial := "x³ - 3x + 1", degree := 3, discriminant := 81,
+    galoisGroup := "A₃ ≅ C₃", isSolvable := true },
+  { polynomial := "x³ - 2", degree := 3, discriminant := -108,
+    galoisGroup := "S₃", isSolvable := true },
+  { polynomial := "x⁴ - 2", degree := 4, discriminant := -2048,
+    galoisGroup := "D₄", isSolvable := true },
+  { polynomial := "x⁵ - 6x + 3", degree := 5, discriminant := 0,
+    galoisGroup := "S₅", isSolvable := false },
+  { polynomial := "x⁵ - x - 1", degree := 5, discriminant := 2869,
+    galoisGroup := "S₅", isSolvable := false }
+]
 
 /-! ## Galois group of x^n - a -/
 
-def galoisGroupOfXnMinusA (n : Nat) (a : Nat) : String :=
-  "Gal(Q(zeta_n, a^(1/n))/Q) is a subgroup of the affine group AGL(1, Z/nZ) = (Z/nZ) semidirect (Z/nZ)^x"
+def galoisGroupOfXnMinusA (n : Nat) (a : Int) : String :=
+  "Gal(ℚ(ζ_n, a^(1/n))/ℚ) is a subgroup of the affine group AGL(1, ℤ/nℤ) ≅ ℤ/nℤ ⋊ (ℤ/nℤ)^×"
+
+def galoisGroupOfXnMinusAExamples : List (Nat × Int × String) := [
+  (2, 2, "C₂"),
+  (3, 2, "S₃"),
+  (4, 2, "D₄"),
+  (3, 4, "S₃"),
+  (5, 2, "F₂₀ (Frobenius group of order 20)")
+]
+
+/-! ## Symmetric polynomials and Galois -/
+
+def symmetricPolynomialGaloisDescription : String :=
+  "The general polynomial of degree n over ℚ(a₀,...,a_{n-1}) has Galois group S_n.
+   The extension ℚ(x₁,...,x_n)/ℚ(s₁,...,s_n) where sᵢ are elementary symmetric
+   polynomials has Galois group S_n."
+
+/-! ## Galois group of a trinomial x^n + ax + b -/
+
+def trinomialGaloisGroups : List (Nat × String) := [
+  (3, "Solvable (cubic)"),
+  (4, "Solvable (quartic)"),
+  (5, "Often S₅ (not solvable)"),
+  (6, "Often S₆ or A₆")
+]
+
+/-! ## Concrete #eval examples -/
+
+def exampleCounts : List (String × Nat) := [
+  ("Quadratic extensions", quadraticExamples.length),
+  ("Cyclotomic extensions", cyclotomicExamples.length),
+  ("Cubic extensions", cubicExamples.length),
+  ("Finite field extensions", finiteFieldExamples.length),
+  ("Kummer extensions", kummerExamples.length),
+  ("Artin-Schreier extensions", artinSchreierExamples.length),
+  ("Discriminant examples", discriminantExamples.length),
+  ("x^n - a examples", galoisGroupOfXnMinusAExamples.length)
+]
 
 /-! ## #eval tests -/
 
-#eval "Examples.Standard: quadraticExtension, biquadraticExtension, cyclotomicExtension"
-#eval "Examples.Standard: cubicNonGalois, finiteFieldExtension, kummerExtension"
-#eval "Examples.Standard: artinSchreierExample, discriminantExample, galoisOfXnMinusA"
+#eval "Examples.Standard: quadraticExtensions, biquadraticExtension, cyclotomicExtensions"
+#eval s!"Quadratic examples: {quadraticExamples.length}"
+#eval s!"Cyclotomic examples: {cyclotomicExamples.length}"
+#eval s!"Cubic examples: {cubicExamples.length}"
+#eval s!"Finite field examples: {finiteFieldExamples.length}"
+#eval s!"Kummer examples: {kummerExamples.length}"
+#eval s!"Artin-Schreier examples: {artinSchreierExamples.length}"
+#eval s!"Discriminant examples: {discriminantExamples.length}"
+#eval s!"x^n - a examples: {galoisGroupOfXnMinusAExamples.length}"
+#eval s!"Total example families: {exampleCounts.length}"

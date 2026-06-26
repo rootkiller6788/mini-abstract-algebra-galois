@@ -6,7 +6,7 @@ A_5 is simple but not solvable.
 Non-commutative rings without identity.
 Semigroups that are not monoids.
 Non-associative algebras (Lie, Jordan).
-Varieties not finitely based.
+Varieties not finitely based. Counterexamples to Maltsev conditions.
 -/
 
 import MiniAlgebraicStructures.Examples.Standard
@@ -21,20 +21,29 @@ def a5IsSimple : String :=
 def a5NotSolvable : String :=
   "A_5 is not solvable, which implies the general quintic is not solvable by radicals"
 
+def a5IsPerfect : String :=
+  "A_5 equals its own commutator subgroup [A_5, A_5] = A_5"
+
 /-! ## Non-commutative ring without identity -/
 
 def nonCommutativeRingNoIdentity : String :=
   "2Z = {even integers} is a ring without identity; Mat_2(2Z) is non-commutative without identity"
+
+def rngExample : String :=
+  "A rng (ring without identity): 2Z, the set of even integers"
 
 /-! ## Semigroup not a monoid -/
 
 def semigroupNotMonoid : String :=
   "Even positive integers {2, 4, 6, ...} under addition: no identity element (0 is not positive)"
 
+def infiniteSemigroup : String :=
+  "(N, max): a semilattice, not a monoid (no identity in N for max)"
+
 /-! ## Non-associative algebra examples -/
 
 def lieAlgebraExample : String :=
-  "R^3 with cross product: a Lie algebra, non-associative because (a x b) x c ≠ a x (b x c) in general"
+  "R^3 with cross product: a Lie algebra, non-associative because (a × b) × c ≠ a × (b × c) in general"
 
 def jordanAlgebraExample : String :=
   "Symmetric matrices under the Jordan product a o b = (ab + ba)/2"
@@ -42,15 +51,30 @@ def jordanAlgebraExample : String :=
 def octonionAlgebra : String :=
   "Octonions O: the largest normed division algebra, non-associative but alternative"
 
+def splitOctonions : String :=
+  "Split octonions: alternative algebra with zero divisors, signature (4,4)"
+
 /-! ## Monoid not embeddable in a group -/
 
 def monoidNotEmbeddableInGroup : String :=
   "The bicyclic monoid: has no group of fractions, showing not every monoid embeds in a group"
 
+def rightCancellativeMonoid : String :=
+  "A right cancellative monoid that is not left cancellative"
+
 /-! ## Idempotent semigroups (bands) -/
 
 def rectangularBand : String :=
   "A rectangular band satisfies xyz = xz; a classic example of an idempotent semigroup"
+
+def leftZeroSemigroup : String :=
+  "Left-zero semigroup: xy = x for all x,y -- a band but not commutative"
+
+def rightZeroSemigroup : String :=
+  "Right-zero semigroup: xy = y for all x,y"
+
+def semilatticeExample : String :=
+  "A meet-semilattice: xy = yx, x² = x, x(yz) = (xy)z"
 
 /-! ## Varieties that are not finitely based -/
 
@@ -60,6 +84,12 @@ def varietyNotFinitelyBased : String :=
 def perkinsNonfinitelyBasedSemigroup : String :=
   "Perkins' semigroup: a 6-element semigroup generating a non-finitely based variety"
 
+def murskiisNonfinitelyBased : String :=
+  "Murskii's 3-element groupoid: generates a non-finitely based variety with only 3 elements"
+
+def nonFinitelyBasedFiniteAlgebra : String :=
+  "There exist finite algebras (e.g., Oates-Macdonald for groups is not possible; groups ARE finitely based)"
+
 /-! ## Counterexamples to HSP characterizations -/
 
 def pseudoVariety : String :=
@@ -68,10 +98,77 @@ def pseudoVariety : String :=
 def quasivarietyNotVariety : String :=
   "The class of torsion-free groups is a quasivariety (defined by implications) but not a variety"
 
+def elementaryClassNotVariety : String :=
+  "The class of fields is an elementary class (first-order definable) but not a variety or quasivariety"
+
+/-! ## Counterexamples to congruence properties -/
+
+def congruenceButNotPermutable : String :=
+  "The variety of semigroups: congruences need not permute"
+
+def congruenceButNotDistributive : String :=
+  "The variety of groups: congruence lattice is modular but not distributive"
+
+def congruenceButNotModular : String :=
+  "The variety of semilattices: congruence lattice is distributive (hence modular), actually"
+
+def modularButNotDistributive : String :=
+  "Groups form a congruence-modular variety that is not congruence-distributive"
+
+/-! ## Counterexamples to Maltsev conditions -/
+
+def noMaltsevTerm : String :=
+  "Semigroups: no Maltsev term exists, congruences do not permute"
+
+def noMajorityTerm : String :=
+  "Semigroups: no majority term (congruences not distributive)"
+
+def noMinorityTerm : String :=
+  "Groups: no minority term exists in general"
+
+def varietyWithoutPixleyTerm : String :=
+  "Groups: not arithmetic (congruences not distributive)"
+
+/-! ## Simple but not absolutely simple -/
+
+def simpleButNotAbsolutelySimple : String :=
+  "A simple group considered as an algebraic structure may have subalgebras that are not simple"
+
+/-! ## Residual smallness counterexample -/
+
+def notResiduallySmall : String :=
+  "There exist finite algebras generating residually large varieties"
+
+/-! ## Amalgamation failure -/
+
+def amalgamationFailsSemigroups : String :=
+  "Semigroups: amalgamation property fails. There exist semigroups that cannot be amalgamated."
+
+def amalgamationHoldsGroups : String :=
+  "Groups: amalgamation property holds. Any pushout of group embeddings exists."
+
+/-! ## Inverse limit counterexample -/
+
+def inverseLimitNotSurjective : String :=
+  "Inverse limit of surjective homomorphisms need not be surjective (Mittag-Leffler condition needed)"
+
 /-! ## Counterexamples summary -/
 
 def counterexamplesAlgebraicStructures : String :=
   "A_5 simple|2Z rng|even semigroup|Lie/Jordan/Octonion|bicyclic monoid|rectangular band|non-finitely based|pseudovariety|quasivariety"
+
+def counterexampleCatalog : List (String × String) := [
+  ("Groups", "A_5 is simple non-solvable"),
+  ("Rings", "2Z is rng without identity"),
+  ("Semigroups", "Even positive integers under + is not monoid"),
+  ("Non-associative", "R^3 with cross product is Lie algebra"),
+  ("Embeddings", "Bicyclic monoid not embeddable in group"),
+  ("Bands", "Rectangular band xy = xz"),
+  ("Finitely based", "Lyndon's 7-element non-finitely based groupoid"),
+  ("HSP", "Finite groups form pseudovariety"),
+  ("Maltsev", "Semigroups lack Maltsev term"),
+  ("Amalgamation", "Semigroups fail amalgamation")
+]
 
 /-! ## #eval tests -/
 
@@ -79,4 +176,7 @@ def counterexamplesAlgebraicStructures : String :=
 #eval "Examples.Counterexamples: semigroupNotMonoid, non-associative algebras"
 #eval "Examples.Counterexamples: monoidNotEmbeddable, idempotent bands"
 #eval "Examples.Counterexamples: non-finitely based varieties, pseudo/quasi varieties"
+#eval "Examples.Counterexamples: Maltsev condition counterexamples"
+#eval "Examples.Counterexamples: Amalgamation failures, inverse limit issues"
 #eval s!"Counterexamples: {counterexamplesAlgebraicStructures}"
+#eval s!"Counterexample catalog: {counterexampleCatalog.length} entries"

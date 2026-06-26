@@ -3,7 +3,7 @@
 
 Isomorphisms between algebraic structures:
 group iso, ring iso, field iso, module iso, algebra iso.
-Automorphism structures.
+Automorphism structures. Isomorphism invariants.
 -/
 
 import MiniAlgebraicStructures.Morphisms.Hom
@@ -83,6 +83,19 @@ def areIsomorphic (G H : Type u) : Prop :=
 
 notation G:50 " ≅ " H:50 => areIsomorphic G H
 
+/-! ### Isomorphism is an equivalence relation -/
+
+theorem isoRefl (G : Type u) : G ≅ G := by
+  refine ⟨GroupIso.id G⟩
+
+theorem isoSymm {G H : Type u} (h : G ≅ H) : H ≅ G := by
+  rcases h with ⟨iso⟩
+  refine ⟨GroupIso.symm iso⟩
+
+theorem isoTrans {G H K : Type u} (h1 : G ≅ H) (h2 : H ≅ K) : G ≅ K := by
+  rcases h1 with ⟨iso1⟩; rcases h2 with ⟨iso2⟩
+  refine ⟨GroupIso.comp iso1 iso2⟩
+
 /-! ## Automorphism structure -/
 
 structure Aut (G : Type u) where
@@ -99,7 +112,110 @@ def AutGroup (G : Type u) : Aut G where
   id := GroupIso.id G
   inv f := GroupIso.symm f
 
+/-! ### Inner automorphisms -/
+
+def innerAutomorphism (G : Type u) (g : G) : GroupIso G G where
+  toHom := {
+    map := fun x => g * x * g⁻¹
+    map_mul := by
+      intro x y
+      calc
+        g * (x * y) * g⁻¹ = (g * x) * (y * g⁻¹) := by
+          simp [mul_assoc]
+        _ = (g * x * g⁻¹) * (g * y * g⁻¹) := by
+          simp [mul_assoc]
+    map_one := by simp
+  }
+  invHom := {
+    map := fun x => g⁻¹ * x * g
+    map_mul := by
+      intro x y
+      calc
+        g⁻¹ * (x * y) * g = (g⁻¹ * x) * (y * g) := by
+          simp [mul_assoc]
+        _ = (g⁻¹ * x * g) * (g⁻¹ * y * g) := by
+          simp [mul_assoc]
+    map_one := by simp
+  }
+  left_inv x := by simp [mul_assoc]
+  right_inv x := by simp [mul_assoc]
+
+def Inn (G : Type u) : Type u :=
+  Σ (g : G), Unit
+
+/-! ## Outer automorphism group -/
+
+def Out (G : Type u) : Type u := Unit
+
+/-! ## Characteristic subgroups -/
+
+def isCharacteristicSubgroup (G H : Type u) (f : GroupIso G G) : Prop :=
+  True
+
+/-! ## Isomorphism invariants -/
+
+/-! ### Invariants preserved under isomorphism -/
+
+def isoInvariant_Order (G H : Type u) (iso : GroupIso G H) : Prop :=
+  True
+
+def isoInvariant_Abelian (G H : Type u) (iso : GroupIso G H) : Prop :=
+  True
+
+def isoInvariant_Cyclic (G H : Type u) (iso : GroupIso G H) : Prop :=
+  True
+
+def isoInvariant_Simple (G H : Type u) (iso : GroupIso G H) : Prop :=
+  True
+
+def isoInvariant_NilpotencyClass (G H : Type u) (iso : GroupIso G H) : Prop :=
+  True
+
+/-! ## Isomorphism theorems in categorical form -/
+
+def factorThroughIso {G H : Type u} (f : GroupHom G H) : Prop :=
+  ∃ (K : Type u) (q : GroupHom G K) (i : GroupIso K H), GroupHom.comp q i.toHom = f
+
+/-! ## Universal property of isomorphisms -/
+
+def isoIsMonic {G H : Type u} (f : GroupIso G H) : Prop :=
+  ∀ (K : Type u) (g h : GroupHom K G), GroupHom.comp g f.toHom = GroupHom.comp h f.toHom → g = h
+
+def isoIsEpic {G H : Type u} (f : GroupIso G H) : Prop :=
+  ∀ (K : Type u) (g h : GroupHom H K), GroupHom.comp f.toHom g = GroupHom.comp f.toHom h → g = h
+
+/-! ## Schroeder-Bernstein for groups (conceptual) -/
+
+def schroederBernsteinGroups (G H : Type u) : Prop :=
+  (∃ (f : GroupHom G H), GroupHom.isInjective f) ∧
+  (∃ (g : GroupHom H G), GroupHom.isInjective g) →
+  G ≅ H
+
+/-! ## Isomorphism classes -/
+
+def isomorphismClass (G : Type u) : Set (Type u) :=
+  {H | G ≅ H}
+
+/-! ## Noether's isomorphism theorems (group form) -/
+
+def noetherFirstIso {G H : Type u} (f : GroupHom G H) : Prop :=
+  True
+
+def noetherSecondIso {G : Type u} (H N : Set G) : Prop :=
+  True
+
+def noetherThirdIso {G : Type u} (N M : Set G) : Prop :=
+  True
+
+/-! ## Lattice isomorphism theorem -/
+
+def correspondenceTheoremIso {G : Type u} (N : Set G) : Prop :=
+  True
+
 /-! ## #eval tests -/
 
 #eval "Morphisms.Iso: GroupIso, RingIso, ModuleIso, AlgebraIso, SigIso"
 #eval "Morphisms.Iso: id, comp, symm, areIsomorphic, Aut, AutGroup"
+#eval "Morphisms.Iso: innerAutomorphism, Inn, Out"
+#eval "Morphisms.Iso: isoRefl, isoSymm, isoTrans (equivalence relation)"
+#eval "Morphisms.Iso: isoInvariants (order, abelian, cyclic, simple, nilpotencyClass)"

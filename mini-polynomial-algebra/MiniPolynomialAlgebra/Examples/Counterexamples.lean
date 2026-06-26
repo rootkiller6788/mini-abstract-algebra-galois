@@ -1,64 +1,88 @@
 /-
 # MiniPolynomialAlgebra.Examples.Counterexamples
+Counterexamples in polynomial algebra: non-UFD polynomial rings,
+irreducible but not absolutely irreducible, failure of Eisenstein,
+reducible but no rational root.
 
-Counterexamples in polynomial algebra:
-non-UFD polynomial rings, irreducible polynomials
-that become reducible under extension, and more.
+Knowledge: L6(counterexamples) L5(proof by counterexample)
 -/
 
 import MiniPolynomialAlgebra.Core.Basic
 
 namespace MiniPolynomialAlgebra
-
 open MiniRingTheoryCore
 open MiniFieldTheoryCore
+open Poly
 
-/-! ## Non-UFD Polynomial Rings -/
+/-! ### Counterexample: Reducible with no Rational Root -/
 
--- ℤ/4ℤ[X] is not a UFD: X^2 = (X+2)^2 in (ℤ/4ℤ)[X]...
--- Actually this example needs care. A better one: R not UFD ⇒ R[X] not UFD
-def nonIntegralDomainCoefficients : Prop := True
+/-- X^4 + 4 is reducible over Q (factors as (X^2+2X+2)(X^2-2X+2))
+    but has no rational root. This shows the rational root test is
+    sufficient but not necessary. -/
+def x4plus4 : Poly intRing := ofList [4, 0, 0, 0, 1]
+#eval evalSum x4plus4 0 10   -- 4 (not a root)
+#eval evalSum x4plus4 1 10   -- 5 (not a root)
+#eval evalSum x4plus4 (-1) 10 -- 5 (not a root)
+-- Yet X^4+4 = (X^2+2X+2)(X^2-2X+2) is reducible!
 
--- ℤ/6ℤ[X]: (2X+1)(3X+1) = 6X^2 + 5X + 1 = 5X + 1 (since 6=0)
--- Shows zero divisors in coefficient ring cause issues
-def zeroDivisorsExample : Prop := True
+/-! ### Counterexample: Eisenstein Fails but Irreducible -/
 
-/-! ## Irreducible but Not Absolutely Irreducible -/
+/-- X^4 + 1 is irreducible over Q but Eisenstein does not apply directly.
+    Eisenstein can be applied after substituting X+1 for X. -/
+def eisenstein_fails_direct : Poly intRing := ofList [1, 0, 0, 0, 1]
+-- No prime divides all lower coefficients
 
--- X^2 + 1 irreducible over ℝ, reducible over ℂ
-def irreducibleOverRnotOverC : Prop := True
+/-! ### Counterexample: Reducible Mod p but Irreducible over Q -/
 
--- X^2 + Y^2 irreducible over ℝ, reducible over ℂ: (X+iY)(X-iY)
-def bivariateIrreducibleOverRnotOverC : Prop := True
+/-- X^4 + 3X^2 + 1 is irreducible over Q but reducible mod 2.
+    Reduction mod p can fail to detect irreducibility. -/
+def reducible_mod2_irreducible_over_Q : Poly intRing := ofList [1, 0, 3, 0, 1]
 
--- X^4 + 1: irreducible over ℚ, factors over ℚ(√2): (X^2 - √2·X + 1)(X^2 + √2·X + 1)
-def irreducibleOverQnotOverQsqrt2 : Prop := True
+/-! ### Counterexample: Content Must be Considered -/
 
-/-! ## Degree Not Preserved under Non-Monic Multiplication -/
+/-- 2X + 2 = 2(X+1) is reducible over Z as 2*(X+1).
+    But over Q, constant factors are units, so it is irreducible.
+    This shows the difference between Z[X] and Q[X] irreducibility. -/
+def twoXplus2 : Poly intRing := ofList [2, 2]
+-- reducible over Z (2 is not a unit), irreducible over Q
 
--- In ℤ/6ℤ[X]: (2X)(3X) = 6X^2 = 0, so product degree is -∞, not 1+1=2
-def degreeMulFailsForNonIntegralDomains : Prop := True
+/-! ### Counterexample: Non-Primitive Affects Gauss Lemma -/
 
-/-! ## Polynomial with More Roots than Degree -/
+/-- 6X^2 + 10X + 4 = 2(3X^2 + 5X + 2) = 2(X+1)(3X+2).
+    Content is 2, primitive part factors. -/
+def nonPrimitiveExample : Poly intRing := ofList [4, 10, 6]
 
--- In ℤ/8ℤ, X^2 = 0 has 4 roots: 0, 2, 4, 6
--- In quaternions, X^2 + 1 = 0 has infinitely many roots
-def moreRootsThanDegreeNonCommutative : Prop := True
+/-! ### Counterexample: Degree of Product Not Always Sum -/
 
-/-! ## Irreducible but Factor Modulo p -/
+/-- Over Z/6Z (which has zero divisors), (2X+1)(3X+1) = 5X+1.
+    deg(pq) < deg(p) + deg(q) in rings with zero divisors.
+    Over integral domains, equality holds. -/
+def zeroDivisorDegreeExample : Prop := True
 
--- X^4 + 1 is irreducible over ℚ, but reducible modulo p for EVERY prime p
-def irreducibleOverQbutReducibleModp : Prop := True
+/-! ### Counterexample: Infinite Family of Irreducibles -/
 
-/-! ## Eisenstein Criterion Not Necessary -/
+/-- X^n + X + 1 is irreducible over F_2 for many n.
+    This series yields irreducible polynomials for cryptography. -/
+def trinomialCounterexample (n : Nat) : Prop := True
 
--- X^2 + X + 2 is irreducible but Eisenstein doesn't directly apply
-def irreducibleWithoutEisenstein : Prop := True
+/-! ### Counterexample: Separability Fails in Char p -/
 
-/-! ## Non-Example: Derivative and Repeated Roots -/
+/-- Over F_p(t), the polynomial X^p - t is irreducible but not separable.
+    Its derivative is pX^{p-1} = 0 in characteristic p. -/
+def inseparablePolynomialExample : Prop := True
 
--- p(X) = X^2 over ℤ/pℤ[X] has p' = 2X = 0 in characteristic p
--- In characteristic p, p' = 0 doesn't imply p has repeated roots
-def derivativeZeroInCharP : Prop := True
+/-! ### Counterexample: Polynomial With Many Roots -/
 
-#eval "Examples.Counterexamples: non-UFD, not absolutely irreducible, degree fails for non-domains"
+/-- Over Z/8Z, X^2 = 1 has 4 roots: 1, 3, 5, 7.
+    Over a general ring, a degree-2 polynomial can have more than 2 roots. -/
+def tooManyRootsCounterexample : Prop := True
+
+/-! ### Counterexample: Minimal Polynomial Not Unique -/
+
+/-- Over Q, the minimal polynomial is unique up to scalar.
+    But over Z, "minimal polynomial" depends on primitivity. -/
+def minimalPolyNotUniqueOverZ : Prop := True
+
+#eval "Examples.Counterexamples: reducible no rational root, Eisenstein fails, degree product, separability"
+
+end MiniPolynomialAlgebra

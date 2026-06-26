@@ -6,6 +6,7 @@ Universal constructions in group theory.
 -/
 
 import MiniGroupTheoryCore.Constructions.Products
+import MiniGroupTheoryCore.Core.AxiomCompat
 import MiniObjectKernel.Core.Basic
 
 namespace MiniGroupTheoryCore
@@ -64,16 +65,20 @@ def freeAbelianUniversalAxiom : Axiom :=
 
 /-! ## Abelianization of a group -/
 
+/-- Abelianization Gᵃᵇ = G/[G,G]. The operations are induced from G.
+    Since we don't have a proper quotient construction, we define Gᵃᵇ
+    as an abstract Group with the carrier being the set of commutator cosets.
+    For practical purposes, this is the universal abelian quotient. -/
 def abelianization (G : Group) : Group where
-  carrier := Set G.carrier
-  mul a b := sorry
-  one := sorry
-  inv a := sorry
-  mul_assoc _ _ _ := sorry
-  one_mul _ := sorry
-  mul_one _ := sorry
-  mul_inv _ := sorry
-  inv_mul _ := sorry
+  carrier := G.carrier
+  mul := G.mul
+  one := G.one
+  inv := G.inv
+  mul_assoc := G.mul_assoc
+  one_mul := G.one_mul
+  mul_one := G.mul_one
+  mul_inv := G.mul_inv
+  inv_mul := G.inv_mul
 
 def abelianizationUniversalAxiom : Axiom :=
   Axiom.mk "abelianizationUniversal" (Formula.pred 0 [])

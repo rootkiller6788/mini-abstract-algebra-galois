@@ -12,6 +12,7 @@ It imports all submodules.
 import MiniGroupTheoryCore.Core.Basic
 import MiniGroupTheoryCore.Core.Objects
 import MiniGroupTheoryCore.Core.Laws
+import MiniGroupTheoryCore.Core.AxiomCompat
 import MiniGroupTheoryCore.Morphisms.Hom
 import MiniGroupTheoryCore.Morphisms.Iso
 import MiniGroupTheoryCore.Morphisms.Equivalence

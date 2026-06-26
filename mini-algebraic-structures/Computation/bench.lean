@@ -7,7 +7,6 @@ congruence lattice computation, word problem solving.
 -/
 
 import MiniAlgebraicStructures
-import MiniAlgebraicStructures.Computation
 
 /-!
 ## Benchmarks

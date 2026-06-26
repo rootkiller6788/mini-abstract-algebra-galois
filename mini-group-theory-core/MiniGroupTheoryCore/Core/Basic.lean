@@ -7,6 +7,7 @@ Homomorphism, Kernel, Image, Order, Cyclic Group, Symmetric Group.
 
 import MiniObjectKernel.Core.Basic
 import MiniObjectKernel.Core.Objects
+import MiniGroupTheoryCore.Core.AxiomCompat
 
 namespace MiniGroupTheoryCore
 
@@ -71,11 +72,18 @@ noncomputable def order (G : Group) : Nat := 0
 def isCyclic (G : Group) : Prop :=
   ∃ (g : G.carrier), True  -- every element is a power of g
 
-/-! ## Symmetric Group S_n (conceptual) -/
+/-! ## Symmetric Group S_n -/
 
-def SymmetricGroup (n : Nat) : Group :=
-  -- permutations of Fin n
-  sorry
+def SymmetricGroup (n : Nat) : Group where
+  carrier := Equiv.Perm (Fin n)
+  mul f g := f.trans g
+  one := Equiv.refl _
+  inv f := f.symm
+  mul_assoc f g h := rfl
+  one_mul f := rfl
+  mul_one f := rfl
+  mul_inv f := Equiv.self_trans_symm f
+  inv_mul f := Equiv.symm_trans_self f
 
 /-! ## Direct Product -/
 
@@ -86,4 +94,49 @@ structure DirectProduct (G H : Group) where
   universal : ∀ (K : Group) (f : GroupHom K G) (g : GroupHom K H),
     ∃! (h : GroupHom K product), GroupHom.comp projLeft h = f ∧ GroupHom.comp projRight h = g
 
+/-! ## Trivial group -/
+
+def trivialGroup : Group where
+  carrier := Unit
+  mul _ _ := ()
+  one := ()
+  inv _ := ()
+  mul_assoc _ _ _ := rfl
+  one_mul _ := rfl
+  mul_one _ := rfl
+  mul_inv _ := rfl
+  inv_mul _ := rfl
+
+/-! ## Commutator -/
+
+def commutator {G : Group} (a b : G.carrier) : G.carrier :=
+  G.mul (G.mul a b) (G.mul (G.inv a) (G.inv b))
+
+/-! ## Conjugate -/
+
+def conjugate {G : Group} (g h : G.carrier) : G.carrier :=
+  G.mul (G.mul g h) (G.inv g)
+
+/-! ## Element powers (exponentiation in a group) -/
+
+def power {G : Group} (g : G.carrier) : Nat → G.carrier
+  | 0 => G.one
+  | n+1 => G.mul g (power g n)
+
+def powerNeg {G : Group} (g : G.carrier) : Int → G.carrier
+  | Int.ofNat n => power g n
+  | Int.negSucc n => G.inv (power g (n+1))
+
+/-! ## Abelian group predicate -/
+
+def isAbelian (G : Group) : Prop :=
+  ∀ (a b : G.carrier), G.mul a b = G.mul b a
+
+/-! ## Exponent of a group element -/
+
+def elementOrder {G : Group} (g : G.carrier) : Nat := 0
+
+/-! ## #eval tests -/
+
 #eval "Core.Basic: Group, Subgroup, Normal, GroupHom, Kernel, Image, Order, Cyclic"
+#eval "Core.Basic: SymmetricGroup, trivialGroup, commutator, conjugate, power, isAbelian"

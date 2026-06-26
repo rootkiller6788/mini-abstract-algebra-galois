@@ -17,6 +17,7 @@ integral domains, units, and zero divisors.
 import MiniRingTheoryCore.Core.Basic
 import MiniRingTheoryCore.Core.Objects
 import MiniRingTheoryCore.Core.Laws
+import MiniRingTheoryCore.Core.Proofs
 import MiniRingTheoryCore.Morphisms.Hom
 import MiniRingTheoryCore.Morphisms.Iso
 import MiniRingTheoryCore.Morphisms.Equivalence

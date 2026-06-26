@@ -29,12 +29,12 @@ structure SubringInclusion (R : Ring) (S : Set R.carrier) (h : isSubring R S) wh
   isIncl : ∀ x, toFun x = x
   rangeInS : ∀ x, toFun x ∈ S
 
-/-- The identity inclusion: every element maps to itself. -/
-def SubringInclusion.id {R : Ring} {S : Set R.carrier} (h : isSubring R S) :
-  SubringInclusion R S h :=
+/-- The identity inclusion is valid only when S is the whole ring. -/
+def SubringInclusion.id {R : Ring} {S : Set R.carrier} (h : isSubring R S)
+  (hfull : ∀ x : R.carrier, x ∈ S) : SubringInclusion R S h :=
   { toFun := λ x => x
     isIncl := λ _ => rfl
-    rangeInS := λ x => by trivial
+    rangeInS := λ x => hfull x
   }
 
 /-! ## Ideal Lattice Operations -/

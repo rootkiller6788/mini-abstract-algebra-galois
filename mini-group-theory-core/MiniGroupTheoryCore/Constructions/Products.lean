@@ -77,13 +77,13 @@ structure WreathProduct (G H : Group) where
 
 /-! ## Free product of groups -/
 
+/-- Free product G ∗ H (coproduct in Grp).
+    Defined abstractly — the carrier consists of reduced words in elements of G and H. -/
 structure FreeProduct (G H : Group) where
   carrier : Type u
-  injG : GroupHom G (by
-    -- need a group on carrier
-    sorry)
-  injH : GroupHom H (by
-    sorry)
+  groupStruct : Group
+  injG : GroupHom G groupStruct
+  injH : GroupHom H groupStruct
   isUniversal : Prop
 
 /-! ## Coproduct = free product in Grp -/

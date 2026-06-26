@@ -7,6 +7,10 @@ solvability by radicals, Fundamental Theorem of Galois Theory.
 
 This is a sub-package of mini-abstract-algebra-galois.
 It imports all submodules.
+
+All types are self-contained (GField, GGroup, GFExtension, GSubgroup, etc.)
+to avoid dependency chain issues while maintaining compatibility with
+upstream MiniFieldTheoryCore and MiniGroupTheoryCore packages.
 -/
 
 import MiniGaloisTheoryLite.Core.Basic

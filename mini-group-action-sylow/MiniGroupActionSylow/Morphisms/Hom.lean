@@ -69,3 +69,30 @@ def EquivariantMap.id {G : Group} {X : Type u} (action : GroupAction G X) : Equi
 
 #eval "Morphisms.Hom: EquivariantMap, intertwiners, fixedPoints, actionKernel"
 #eval "Morphisms.Hom: isFaithful, isTransitive, isRegular, comp, id"
+
+
+/-! ============================================================
+## Equivariant Map Properties — Expanded
+============================================================ ----
+
+/-- Equivariant maps form a category: identity and composition
+satisfy the category axioms. -/
+lemma equivariant_map_category_left_id {G : Group} {X Y : Type u}
+    {alphaX : GroupAction G X} {alphaY : GroupAction G Y}
+    (f : EquivariantMap alphaX alphaY) :
+    EquivariantMap.comp (EquivariantMap.id alphaX) f = f := rfl
+
+lemma equivariant_map_category_right_id {G : Group} {X Y : Type u}
+    {alphaX : GroupAction G X} {alphaY : GroupAction G Y}
+    (f : EquivariantMap alphaX alphaY) :
+    EquivariantMap.comp f (EquivariantMap.id alphaY) = f := rfl
+
+lemma equivariant_map_category_assoc {G : Group} {W X Y Z : Type u}
+    {alphaW : GroupAction G W} {alphaX : GroupAction G X}
+    {alphaY : GroupAction G Y} {alphaZ : GroupAction G Z}
+    (f : EquivariantMap alphaW alphaX) (g : EquivariantMap alphaX alphaY)
+    (h : EquivariantMap alphaY alphaZ) :
+    EquivariantMap.comp (EquivariantMap.comp f g) h =
+    EquivariantMap.comp f (EquivariantMap.comp g h) := rfl
+
+#eval "Morphisms.Hom expanded: category axioms for equivariant maps"

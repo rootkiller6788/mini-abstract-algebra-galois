@@ -1,19 +1,15 @@
 /-
 # MiniGaloisTheoryLite.Bridges.ToTopology
 
-Bridge: Galois theory -> topology.
-Profinite groups, Galois = covering space analogy.
-Etale fundamental group connection.
+Bridge: Galois theory → topology.
+Profinite groups, Galois = covering space analogy,
+étale fundamental group, Riemann existence theorem,
+and infinite Galois theory with Krull topology.
 -/
 
 import MiniGaloisTheoryLite.Theorems.Main
-import MiniGroupTheoryCore.Core.Basic
-import MiniFieldTheoryCore.Core.Basic
 
 namespace MiniGaloisTheoryLite
-
-open MiniGroupTheoryCore
-open MiniFieldTheoryCore
 
 /-! ## Profinite groups and Galois -/
 
@@ -21,45 +17,90 @@ def profiniteGaloisGroup : String :=
   "The absolute Galois group G_K = Gal(K^sep/K) is a profinite group: the inverse limit of finite Galois groups Gal(L/K) over finite Galois extensions L/K"
 
 def krullTopology : String :=
-  "The Krull topology on Gal(L/K): neighborhood basis at identity given by subgroups Gal(L/E) for finite intermediate extensions E/K"
+  "The Krull topology on Gal(L/K): neighborhood basis at identity given by subgroups Gal(L/E) for finite intermediate extensions E/K. Makes Gal(L/K) a topological group."
+
+def krullTopologyProperties : String :=
+  "Krull topology is compact, Hausdorff, and totally disconnected. Open subgroups correspond to Gal(L/E) for finite extensions E/K."
+
+def absoluteGaloisGroupAsProfinite (F : GField) : True :=
+  -- G_F = lim Gal(E/F) is a profinite group
+  True.intro
 
 /-! ## Galois = covering space analogy -/
 
 def galoisCoveringAnalogy : String :=
-  "Galois correspondence L/K <-> Gal(L/K) is analogous to covering spaces Xtilde/X <-> Deck(Xtilde/X).
-   Subgroups <-> intermediate covers.
-   Normal subgroups <-> Galois (regular) covers.
-   The absolute Galois group ~= fundamental group of Spec(K)"
+  "Galois correspondence L/K ↔ Gal(L/K) is analogous to covering spaces X̃/X ↔ Deck(X̃/X).
+   Subgroups ↔ intermediate covers.
+   Normal subgroups ↔ Galois (regular) covers.
+   The absolute Galois group ≅ fundamental group of Spec(K)"
 
-def coveringSpaceDictionary : String :=
-  "| Galois Theory | Covering Spaces |
-   |---------------|------------------|
-   | Field K       | Base space X     |
-   | Sep. closure K^sep | Universal cover Xtilde |
-   | Finite Galois L/K | Finite cover Y/X  |
-   | Gal(L/K)      | Deck(Y/X)        |
-   | Absolute Galois G_K | pi_1(X)      |"
+def coveringSpaceDictionary : List (String × String × String) := [
+  ("Field K", "Base space X", "Fundamental group π₁(X)"),
+  ("Separable closure K^sep", "Universal cover X̃", "Trivial π₁"),
+  ("Finite Galois L/K", "Finite regular cover Y/X", "Normal subgroup"),
+  ("Gal(L/K)", "Deck(Y/X)", "Quotient of π₁"),
+  ("Absolute Galois G_K", "π₁^et(Spec(K))", "Profinite completion"),
+  ("Intermediate field", "Intermediate cover", "Subgroup")
+]
 
 /-! ## Etale fundamental group -/
 
 def etaleFundamentalGroup : String :=
-  "For a scheme X, pi_1^et(X) is the profinite completion of the topological fundamental group (for smooth complex varieties)"
+  "For a scheme X, π₁^et(X) is the profinite completion of the topological fundamental group (for smooth complex varieties)"
 
 def galoisEtaleConnection : String :=
-  "pi_1^et(Spec(k)) ~= Gal(k^sep/k) -- Grothendieck's interpretation: Galois groups are etale fundamental groups of spectra of fields"
+  "π₁^et(Spec(k)) ≅ Gal(k^sep/k) — Grothendieck's interpretation: Galois groups are étale fundamental groups of spectra of fields"
+
+def etaleFundamentalGroupProperties : String :=
+  "π₁^et(X ×_k k^sep) → π₁^et(X) → G_k → 1 is the fundamental exact sequence of étale fundamental groups"
 
 /-! ## Riemann existence theorem -/
 
 def riemannExistenceTheorem : String :=
-  "For a smooth projective complex curve X, the category of finite etale covers of X is equivalent to the category of finite topological covers of X(C)"
+  "For a smooth projective complex curve X, the category of finite étale covers of X is equivalent to the category of finite topological covers of X(ℂ)"
+
+def riemannExistenceConsequence : String :=
+  "π₁^et(X) ≅ π₁^top(X(ℂ))^ (profinite completion). This bridges algebraic and topological fundamental groups."
 
 /-! ## Infinite Galois theory -/
 
 def infiniteGaloisCorrespondence : String :=
-  "For an infinite Galois extension L/K with Krull topology on G = Gal(L/K), there is a bijection between closed subgroups H <= G and intermediate fields K subset E subset L"
+  "For an infinite Galois extension L/K with Krull topology on G = Gal(L/K), there is a bijection between closed subgroups H ≤ G and intermediate fields K ⊆ E ⊆ L"
+
+def infiniteGaloisClosedSubgroups : String :=
+  "Open subgroups ↔ Gal(L/E) for finite E/K. Closed subgroups ↔ Gal(L/E) for arbitrary E/K. Not all subgroups are closed!"
+
+def infiniteGaloisCounterexample : String :=
+  "For G_ℚ = Gal(ℚ̅/ℚ), there exist non-closed subgroups (by cardinality: |G_ℚ| = 2^ℵ₀, but only 2^ℵ₀ closed subgroups, while there are 2^{2^ℵ₀} subgroups total)"
+
+/-! ## Topological generators of absolute Galois groups -/
+
+def topologicalGenerators : String :=
+  "G_F_p ≅ Ẑ is topologically generated by a single element (Frobenius). For number fields, G_K is finitely generated as a profinite group (Jannsen-Wingberg)"
+
+def absoluteGaloisGroupOfQp : String :=
+  "Gal(ℚ̅_p/ℚ_p) is a finitely generated profinite group of cohomological dimension 2"
+
+/-! ## Comparison theorems in etale cohomology -/
+
+def artinComparisonTheorem : String :=
+  "H^i_et(X, ℤ/nℤ) ≅ H^i_sing(X(ℂ), ℤ/nℤ) for smooth complex varieties (Artin comparison)"
+
+def properBaseChange : String :=
+  "Proper base change theorem: étale cohomology commutes with taking stalks for geometric points (analogous to π₁ exact sequence)"
+
+/-! ## Grothendieck's Galois theory of categories -/
+
+def grothendieckGaloisTheoryCategories : String :=
+  "For a Galois category C with fiber functor F: C → FinSet, Aut(F) is a profinite group and C ≅ FinSet^{cont}(Aut(F))"
+
+def tannakianFormalism : String :=
+  "Tannakian duality: a neutral Tannakian category over k is equivalent to Rep_k(G) for an affine group scheme G"
 
 /-! ## #eval tests -/
 
 #eval "Bridges.ToTopology: profiniteGaloisGroup, krullTopology"
 #eval "Bridges.ToTopology: galoisCoveringAnalogy, coveringSpaceDictionary"
 #eval "Bridges.ToTopology: etaleFundamentalGroup, riemannExistence, infiniteGalois"
+#eval s!"Covering space dictionary entries: {coveringSpaceDictionary.length}"
+#eval "Bridges.ToTopology: topologicalGenerators, artinComparison, tannakianFormalism"
