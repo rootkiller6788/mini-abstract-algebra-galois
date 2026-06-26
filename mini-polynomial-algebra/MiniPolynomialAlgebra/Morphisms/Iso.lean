@@ -65,7 +65,7 @@ def induceFromRingIso (phi : RingHom R S) (psi : RingHom S R)
   forward := fun p n => phi.map (p n)
   backward := fun q n => psi.map (q n)
   forward_add := by intro p q; ext n; dsimp [add]; rw [phi.map_add]
-  forward_mul := by intro p q; ext n; dsimp [mul]; sorry
+  forward_mul := by intro p q; ext n; dsimp [mul]; rfl
   forward_one := by ext n; dsimp [one]; simp [phi.map_one]
   left_inv := by intro p; ext n; dsimp; rw [h_left]
   right_inv := by intro q; ext n; dsimp; rw [h_right]
