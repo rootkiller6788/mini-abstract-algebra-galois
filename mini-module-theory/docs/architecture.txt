@@ -1,0 +1,49 @@
+MiniModuleTheory Architecture
+================================
+
+Package: mini-module-theory
+Library: MiniModuleTheory
+Namespace: MiniModuleTheory
+
+Dependencies:
+  - mini-ring-theory-core (Ring, Ideal)
+  - mini-group-theory-core (Group, Subgroup)
+
+Core:
+  Basic.lean    -- Module, Submodule, ModuleHom, FreeModule, Noetherian, Artinian, isExact, TensorProductMod
+  Objects.lean  -- SubmoduleSet structure, Object instances, registration
+  Laws.lean     -- Module axioms (stub)
+
+Morphisms:
+  Hom.lean         -- ModuleHom.comp, kernel, image
+  Iso.lean         -- ModuleIso, ModuleAut, areIsomorphic
+  Equivalence.lean -- moduleEquivalent, submoduleEquivalent, chainHomotopic
+
+Constructions:
+  Products.lean    -- DirectSum, DirectProduct, infiniteDirectSum
+  Universal.lean   -- freeForgetfulAdjunction, tensorHomAdjunction
+  Subobjects.lean  -- submoduleGeneratedBy, annihilator, torsionSubmodule
+  Quotients.lean   -- QuotientModule, quotientByZero
+
+Properties:
+  Invariants.lean         -- moduleRank, moduleLength, isProjective, isInjective, isFlat
+  Preservation.lean       -- Noetherian/Artinian/f.g. preservation properties
+  ClassificationData.lean -- FGPIDStructure, CompositionSeries
+
+Theorems:
+  Basic.lean              -- First/second/third isomorphism theorems
+  UniversalProperties.lean -- tensorProductUniversal
+  Classification.lean      -- classifyFGAbelianGroups, classifyModuleOverField
+  Main.lean               -- Nakayama's Lemma, Hilbert Basis Theorem, Snake Lemma
+
+Examples:
+  Standard.lean        -- regularModule, ZModule conceptual
+  Counterexamples.lean -- Non-free module, non-split sequences, non-Noetherian
+
+Bridges:
+  ToAlgebra.lean      -- Group representations as modules, Lie algebra modules
+  ToTopology.lean     -- Topological modules, Pontryagin duality, vector bundles
+  ToGeometry.lean     -- Serre-Swan, coherent sheaves, D-modules
+  ToComputation.lean  -- Groebner bases, Smith normal form, Ext/Tor computation
+
+Total .lean modules: 23

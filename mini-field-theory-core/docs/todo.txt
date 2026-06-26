@@ -1,0 +1,23 @@
+MiniFieldTheoryCore TODO
+========================
+
+High Priority:
+[ ] Build concrete field instances (Q, R, C, F_p)
+[ ] Prove field homomorphism injectivity
+[ ] Prove characteristic is 0 or prime
+[ ] Implement extension degree properly
+[ ] Fill in FieldOfFractions construction (Constructions/Universal.lean)
+
+Medium Priority:
+[ ] Prove finite extension properties (Theorems/Basic.lean)
+[ ] Implement algebraic closure (Constructions/Universal.lean)
+[ ] Classify finite fields (Theorems/Classification.lean)
+[ ] Universal properties of field constructions (Theorems/UniversalProperties.lean)
+[ ] Property invariants (Properties/Invariants.lean)
+
+Low Priority:
+[ ] Bridge implementations (Bridges/To*.lean)
+[ ] Counterexamples library (Examples/Counterexamples.lean)
+[ ] Compositum of fields (Constructions/Products.lean)
+[ ] Residue fields (Constructions/Quotients.lean)
+[ ] Classification data (Properties/ClassificationData.lean)

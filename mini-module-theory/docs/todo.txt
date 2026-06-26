@@ -1,0 +1,22 @@
+MiniModuleTheory TODO
+==========================
+
+High Priority:
+[ ] Complete ModuleHom.kernel and ModuleHom.image proofs (Morphisms/Hom.lean)
+[ ] Prove isomorphism theorems for modules (Theorems/Basic.lean)
+[ ] Structure theorem for finitely generated modules over a PID (Theorems/Classification.lean)
+[ ] Fill in tensor product construction (Constructions/Products.lean)
+
+Medium Priority:
+[ ] Nakayama's Lemma proof (Theorems/Main.lean)
+[ ] Hilbert Basis Theorem proof (Theorems/Main.lean)
+[ ] Snake Lemma and diagram chasing (Theorems/Main.lean)
+[ ] Projective / injective / flat module theory (Properties/Invariants.lean)
+[ ] Jordan-Holder theorem (Properties/ClassificationData.lean)
+
+Low Priority:
+[ ] Bridge implementations (Bridges/To*.lean)
+[ ] Counterexamples library (Examples/Counterexamples.lean)
+[ ] Homological dimension theory (Properties/Invariants.lean)
+[ ] Ext and Tor functor definitions (Constructions/Universal.lean)
+[ ] Computational module theory (Bridges/ToComputation.lean)

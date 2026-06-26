@@ -1,0 +1,14 @@
+MiniFieldTheoryCore Changelog
+=============================
+
+v0.1.0 (2026-05-21)
+  - Initial standalone mini-package with full skeleton
+  - Core: Field, FieldExtension, Algebraic, Transcendental, Characteristic, PrimeField, FiniteField
+  - Morphisms: FieldHom, FieldIso, FieldEquivalence, ExtensionEquivalence
+  - Constructions: Subfield, IntermediateField, AlgebraicClosure stub, Compositum stub, Quotients stub
+  - Properties: stubs for Invariants/Preservation/ClassificationData
+  - Theorems: stubs for Basic/UniversalProperties/Classification/Main
+  - Examples: stubs for Standard/Counterexamples
+  - Bridges: stubs for ToAlgebra/ToTopology/ToGeometry/ToComputation
+  - Tests: Smoke, Examples, Regression
+  - Benchmarks: CoreCoverage, Princeton, Cambridge, Harvard, MIT, Oxford

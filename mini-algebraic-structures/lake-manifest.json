@@ -1,0 +1,26 @@
+{
+  "version": "1.0.0",
+  "packagesDir": "./.lake/packages",
+  "packages": [
+    {
+      "name": "mini-group-theory-core",
+      "url": "../mini-group-theory-core",
+      "type": "path"
+    },
+    {
+      "name": "mini-ring-theory-core",
+      "url": "../mini-ring-theory-core",
+      "type": "path"
+    },
+    {
+      "name": "mini-field-theory-core",
+      "url": "../mini-field-theory-core",
+      "type": "path"
+    },
+    {
+      "name": "mini-module-theory",
+      "url": "../mini-module-theory",
+      "type": "path"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+MiniModuleTheory Changelog
+===============================
+
+v0.1.0 (2026-05-21)
+  - Initial standalone mini-package with full skeleton
+  - Core: Module, Submodule, ModuleHom, FreeModule, Noetherian, Artinian, isExact, TensorProductMod
+  - Objects: SubmoduleSet structure, Object registration
+  - Morphisms: ModuleHom.comp, ModuleIso, ModuleAut, areIsomorphic, equivalences
+  - Constructions: DirectSum, DirectProduct, QuotientModule, submoduleGeneratedBy, stubs
+  - Properties: stubs for Invariants/Preservation/ClassificationData
+  - Theorems: stubs for Basic/UniversalProperties/Classification/Main
+  - Examples: regularModule, Counterexamples stubs
+  - Bridges: stubs for ToAlgebra/ToTopology/ToGeometry/ToComputation
+  - Tests: Smoke, Examples, Regression
+  - Benchmarks: CoreCoverage, Princeton, Cambridge, Harvard, MIT, Oxford

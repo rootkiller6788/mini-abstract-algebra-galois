@@ -1,0 +1,49 @@
+MiniFieldTheoryCore Architecture
+================================
+
+Package: mini-field-theory-core
+Library: MiniFieldTheoryCore
+Namespace: MiniFieldTheoryCore
+
+Dependencies:
+  - mini-ring-theory-core (Ring structure)
+  - mini-group-theory-core (Group structure)
+
+Core:
+  Basic.lean    -- Field, FieldExtension, Algebraic, Transcendental, Characteristic, PrimeField, FiniteField
+  Objects.lean  -- Object instances for Field, FieldExtension (stub)
+  Laws.lean     -- Field-theoretic axioms (stub)
+
+Morphisms:
+  Hom.lean         -- FieldHom, identity, composition
+  Iso.lean         -- FieldIso (isomorphism between fields)
+  Equivalence.lean -- FieldEquivalence, ExtensionEquivalence
+
+Constructions:
+  Products.lean    -- Compositum of fields (stub)
+  Universal.lean   -- Algebraic closure, Field of Fractions (stub)
+  Subobjects.lean  -- Subfield, IntermediateField
+  Quotients.lean   -- Residue fields (stub)
+
+Properties:
+  Invariants.lean         -- Characteristic, degree, transcendence degree (stub)
+  Preservation.lean       -- Property preservation under extensions (stub)
+  ClassificationData.lean -- Classification data for fields (stub)
+
+Theorems:
+  Basic.lean              -- Fundamental field theorems (stub)
+  UniversalProperties.lean -- Universal mapping properties (stub)
+  Classification.lean      -- Classification results (stub)
+  Main.lean               -- Aggregated main results (stub)
+
+Examples:
+  Standard.lean        -- Q, R, C, F_p, F_{p^n} (stub)
+  Counterexamples.lean -- Inseparable, non-Galois extensions (stub)
+
+Bridges:
+  ToAlgebra.lean      -- Galois theory, valuations
+  ToTopology.lean     -- Topological fields, locally compact
+  ToGeometry.lean     -- Function fields, real closed fields
+  ToComputation.lean  -- Symbolic computation, factorization
+
+Total .lean modules: 22
